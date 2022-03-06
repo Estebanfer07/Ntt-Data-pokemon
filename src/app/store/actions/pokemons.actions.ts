@@ -3,7 +3,7 @@ import { Pokemon } from '../../models/pokemon';
 
 export const cargarPokemons = createAction('[Pokemons] Cargar Pokemons');
 export const cargarPokemonsSuccess = createAction(
-  '[Usuarios] Cargar Usuarios Success',
+  '[Pokemons] Cargar Pokemons Success',
   props<{ pokemons: Pokemon[] }>()
 );
 export const setCurrPokemon = createAction(
