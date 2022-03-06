@@ -74,6 +74,7 @@ export class CreateEditFormComponent implements OnInit {
           next: (p) => {
             this.store.dispatch(addPokemon({ pokemon: { ...p } }));
             this.closeForm.emit();
+            alert('Pokemon creado correctamente');
           },
           error: (_) => alert('Hubo un error al crear pokemon'),
         });
@@ -85,6 +86,7 @@ export class CreateEditFormComponent implements OnInit {
           next: (p) => {
             this.store.dispatch(editPokemon({ pokemon: p }));
             this.closeForm.emit();
+            alert('Pokemon editado correctamente');
           },
           error: (_) => alert('Hubo un error al editar pokemon'),
         });
