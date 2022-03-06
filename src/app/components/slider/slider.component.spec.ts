@@ -1,4 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  ComponentFixtureAutoDetect,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 
 import { SliderComponent } from './slider.component';
 
@@ -6,20 +13,26 @@ describe('SliderComponent', () => {
   let component: SliderComponent;
   let fixture: ComponentFixture<SliderComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ SliderComponent ]
-    })
-    .compileComponents();
-  });
-
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [SliderComponent],
+      imports: [ReactiveFormsModule],
+      providers: [{ provide: ComponentFixtureAutoDetect, useValue: true }],
+    });
     fixture = TestBed.createComponent(SliderComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+
+    component.initialVal = 20;
+    component.parentForm = new FormBuilder().group({
+      slider: [20, Validators.required],
+    });
+    component.controlName = 'slider';
+
+    // component.ngAfterViewInit();
   });
 
-  it('should create', () => {
+  it('debe crear el componente con un form con el campo slider', fakeAsync(() => {
     expect(component).toBeTruthy();
-  });
+    expect(component.parentForm.contains('slider')).toBeTruthy();
+  }));
 });
