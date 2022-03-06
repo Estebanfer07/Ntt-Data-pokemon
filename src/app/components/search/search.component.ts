@@ -53,9 +53,11 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
         ),
         mergeAll()
       )
-      .subscribe((pokemons) =>
-        this.store.dispatch(cargarPokemonsSuccess({ pokemons }))
-      );
+      .subscribe({
+        next: (pokemons) =>
+          this.store.dispatch(cargarPokemonsSuccess({ pokemons })),
+        error: (_) => alert('Hubo un error al cargar los pokemons'),
+      });
   }
 
   ngOnDestroy(): void {

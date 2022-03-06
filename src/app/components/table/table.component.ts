@@ -104,11 +104,17 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   remove(pokemon: Pokemon) {
-    this.pokemonService.removePokemon(pokemon.id).subscribe({
-      next: (p) => {
-        this.store.dispatch(removePokemon({ id: p.id }));
-      },
-      error: (err) => console.log(err),
-    });
+    const confirmar = confirm('seguro que desea eliminar?');
+
+    if (confirmar) {
+      this.pokemonService.removePokemon(pokemon.id).subscribe({
+        next: (p) => {
+          this.store.dispatch(removePokemon({ id: p.id }));
+        },
+        error: (_) => alert('Hubo un error al eliminar Pokemon'),
+      });
+
+      alert('Pokemon eliminado correctamemte');
+    }
   }
 }

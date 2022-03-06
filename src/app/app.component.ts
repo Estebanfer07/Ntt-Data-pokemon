@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
     this.pokemonService.searchPokemons().subscribe({
       next: (pokemons) =>
         this.store.dispatch(cargarPokemonsSuccess({ pokemons })),
-      error: (err) => console.log(err),
+      error: (_) => alert('Hubo un problema al cargar Pokemons'),
     });
   }
 

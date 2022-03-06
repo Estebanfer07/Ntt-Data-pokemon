@@ -70,17 +70,25 @@ export class CreateEditFormComponent implements OnInit {
       //Creo uno nuevo
       this.pokemonService
         .addPokemon({ ...this.registroForm.value, idAuthor: 1 })
-        .subscribe((p) =>
-          this.store.dispatch(addPokemon({ pokemon: { ...p } }))
-        );
+        .subscribe({
+          next: (p) => {
+            this.store.dispatch(addPokemon({ pokemon: { ...p } }));
+            this.closeForm.emit();
+          },
+          error: (_) => alert('Hubo un error al crear pokemon'),
+        });
     } else {
       //editar
       this.pokemonService
         .editPokemon(this.editID, this.registroForm.value)
-        .subscribe((p) => this.store.dispatch(editPokemon({ pokemon: p })));
+        .subscribe({
+          next: (p) => {
+            this.store.dispatch(editPokemon({ pokemon: p }));
+            this.closeForm.emit();
+          },
+          error: (_) => alert('Hubo un error al editar pokemon'),
+        });
     }
-
-    this.closeForm.emit();
   }
 
   cancel() {
