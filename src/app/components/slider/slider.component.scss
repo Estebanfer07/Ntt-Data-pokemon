@@ -1,0 +1,58 @@
+input {
+  height: 30px;
+  width: 210px;
+}
+
+.slider_wrapper {
+  display: flex;
+  position: relative;
+}
+
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 210px;
+  height: 8px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  // outline: none;
+  // opacity: 0.7;
+  // -webkit-transition: 0.2s;
+  // transition: opacity 0.2s;
+  overflow: hidden;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: -407px 0 0 400px #6659f1;
+}
+
+.slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #6659f1;
+  cursor: pointer;
+  box-shadow: -407px 0 0 400px #6659f1;
+}
+
+.slider_thumb {
+  position: absolute;
+  top: -2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #6659f1;
+  pointer-events: none;
+}
+
+.def_attack_val_wrapper {
+  padding: 0 10px;
+  width: 50px;
+  text-align: center;
+}

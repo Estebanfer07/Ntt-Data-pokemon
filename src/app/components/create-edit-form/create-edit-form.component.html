@@ -1,0 +1,57 @@
+<div class="form_wrapper">
+  <p>Nuevo Pokemon</p>
+  <form [formGroup]="registroForm" (submit)="submit()">
+    <div class="form_row_wrapper">
+      <div class="form_field_wrapper">
+        <div class="input_description">Nombre:</div>
+        <input type="text" formControlName="name" />
+      </div>
+      <div class="form_field_wrapper">
+        <div class="input_description">Ataque:</div>
+        <app-slider
+          [parentForm]="registroForm"
+          controlName="attack"
+          [initialVal]="initialValues.attack"
+        ></app-slider>
+      </div>
+    </div>
+    <div class="form_row_wrapper">
+      <div class="form_field_wrapper">
+        <div class="input_description">Imagen:</div>
+        <input type="text" formControlName="image" />
+      </div>
+      <div class="form_field_wrapper">
+        <div class="input_description">Defensa:</div>
+        <app-slider
+          [parentForm]="registroForm"
+          controlName="defense"
+          [initialVal]="initialValues.defense"
+        ></app-slider>
+      </div>
+    </div>
+    <div class="form_row_wrapper">
+      <div class="form_field_wrapper">
+        <div class="input_description">Tipo:</div>
+        <select #typeSelector name="type" formControlName="type">
+          <option [value]="t" *ngFor="let t of pokemonTypes">{{ t }}</option>
+        </select>
+      </div>
+      <div class="form_field_wrapper">
+        <div class="input_description">Hp:</div>
+        <app-slider
+          [parentForm]="registroForm"
+          controlName="hp"
+          [initialVal]="initialValues.hp"
+        ></app-slider>
+      </div>
+    </div>
+    <div class="btns_wrapper">
+      <button [class.disabled]="registroForm.invalid" type="submit" class="btn">
+        <i class="far fa-save"></i> Guardar
+      </button>
+      <button type="button" class="btn" (click)="cancel()">
+        <i class="fa fa-times"></i> Cancelar
+      </button>
+    </div>
+  </form>
+</div>

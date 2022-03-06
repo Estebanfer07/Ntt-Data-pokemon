@@ -1,0 +1,13 @@
+<div class="slider_wrapper" [formGroup]="parentForm">
+  <input
+    type="range"
+    min="0"
+    max="100"
+    [formControlName]="controlName"
+    class="slider"
+  />
+  <div #thumb class="slider_thumb"></div>
+  <span class="def_attack_val_wrapper">{{
+    parentForm.controls[controlName].value
+  }}</span>
+</div>

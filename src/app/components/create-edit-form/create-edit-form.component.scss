@@ -1,0 +1,54 @@
+.form_wrapper {
+  background-color: white;
+  padding: 20px;
+  margin: 0 20px;
+  border: 1px solid #cad4dc;
+
+  p {
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
+  }
+}
+
+.form_row_wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.input_description {
+  margin: 0 10px;
+  width: 60px;
+}
+
+.form_field_wrapper {
+  display: flex;
+  align-items: center;
+  height: 50px;
+}
+
+input {
+  height: 30px;
+  width: 250px;
+  &:focus {
+    outline-color: rgb(202, 29, 29);
+  }
+}
+
+.disabled {
+  cursor: default !important;
+  background-color: rgba($color: #6659f1, $alpha: 0.5) !important;
+}
+
+.btns_wrapper {
+  display: flex;
+  justify-content: center;
+  button {
+    margin: 10px;
+  }
+}
+
+select {
+  width: 100px;
+  height: 30px;
+}

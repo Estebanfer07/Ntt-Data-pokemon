@@ -1,0 +1,70 @@
+table,
+th,
+td {
+  border: 2px solid rgba($color: #cad4dc, $alpha: 1);
+  padding: 10px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background-color: white;
+}
+
+th,
+tr > :nth-child(2),
+tr > :nth-child(5) {
+  text-align: center;
+}
+
+td {
+  width: 20%;
+}
+
+.table_wrapper {
+  margin: 10px 20px;
+}
+
+.table_image {
+  height: 50px;
+}
+
+i {
+  margin: 0 10px;
+  color: rgba($color: #6659f1, $alpha: 1);
+}
+
+.table_options_wrapper {
+  display: flex;
+  align-items: center;
+
+  select {
+    width: 100px;
+    height: 30px;
+  }
+}
+
+.paginator {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin: 10px 0;
+
+  i {
+    font-size: 25px;
+    cursor: pointer;
+  }
+
+  span {
+    font-size: 20px;
+  }
+}
+
+.disabled {
+  cursor: default !important;
+  color: grey;
+}
+
+i {
+  cursor: pointer;
+}

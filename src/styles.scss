@@ -1,1 +1,36 @@
-/* You can add global styles to this file, and also import other style files */
+$background: rgb(247, 253, 253);
+$color_punto: rgb(202, 212, 220);
+
+$radio_punto: 1px;
+$separacion: 21px;
+
+body {
+  background: linear-gradient(
+        90deg,
+        $background ($separacion - $radio_punto),
+        transparent 1%
+      )
+      center,
+    linear-gradient($background ($separacion - $radio_punto), transparent 1%)
+      center,
+    $color_punto;
+  background-size: $separacion $separacion;
+}
+
+.btn {
+  cursor: pointer;
+  margin: 5px 0;
+  height: 40px;
+  background-color: rgba($color: #6659f1, $alpha: 1);
+  box-shadow: none;
+  border: 0;
+  color: white;
+  width: 120px;
+  border-radius: 5px;
+  font-size: 16px;
+
+  i {
+    margin-right: 10px;
+    font-size: 15px;
+  }
+}

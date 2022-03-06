@@ -1,0 +1,57 @@
+<p *ngIf="loadingPokemons">loading...</p>
+
+<div class="table_wrapper">
+  <div class="table_options_wrapper">
+    <select #typeSelector name="type">
+      <option [value]="t" *ngFor="let t of pokemonTypes">{{ t }}</option>
+    </select>
+    <div class="paginator">
+      <i
+        [class.disabled]="currentPage === 1"
+        class="fas fa-angle-left"
+        (click)="lastPage()"
+      ></i>
+      <span>{{ currentPage }}</span>
+      <i
+        [class.disabled]="
+          currentPage * pokemonsPerPage >= filteredPokList.length
+        "
+        class="fas fa-angle-right"
+        (click)="nextPage()"
+      ></i>
+    </div>
+  </div>
+  <table *ngIf="loadedPokemons && !loadingPokemons">
+    <tr>
+      <th>Nombre</th>
+      <th>Imagen</th>
+      <th>Ataque</th>
+      <th>Defensa</th>
+      <th>Acciones</th>
+    </tr>
+    <tr *ngFor="let p of pageList">
+      <td appColorType [type]="p.type" [pok]="p">
+        {{ p.name || "No hay nombre" }}
+      </td>
+      <td>
+        <ng-container *ngIf="p.image && p.image.length > 0; else elseTemplate">
+          <img [src]="p.image" [alt]="p.name" class="table_image" />
+        </ng-container>
+        <ng-template #elseTemplate>
+          <img
+            src="https://www.audicomer.com.ec/wp-content/themes/consultix/images/no-image-found-360x260.png"
+            alt="No image"
+            class="table_image"
+          />
+        </ng-template>
+      </td>
+      <td>{{ p.attack }}</td>
+      <td>{{ p.defense }}</td>
+      <td>
+        <i class="fas fa-edit" (click)="edit(p)"></i>
+        <i class="fas fa-trash" (click)="remove(p)"></i>
+        <br />
+      </td>
+    </tr>
+  </table>
+</div>

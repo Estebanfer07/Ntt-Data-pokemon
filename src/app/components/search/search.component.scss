@@ -1,0 +1,24 @@
+.search_input_wrapper {
+  width: 200px;
+  height: 30px;
+  border-radius: 5px;
+  border: 2px solid rgba($color: #cad4dc, $alpha: 1);
+  margin: 10px 20px;
+  display: flex;
+  align-items: center;
+  background-color: white;
+}
+
+input {
+  border: none;
+  &:focus {
+    outline: none;
+  }
+  &::placeholder {
+    color: rgba($color: #3b3b3b, $alpha: 0.5);
+  }
+}
+i {
+  margin: 0 10px;
+  color: rgba($color: #3b3b3b, $alpha: 0.7);
+}
