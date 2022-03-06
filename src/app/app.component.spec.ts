@@ -2,9 +2,6 @@ import {
   ComponentFixtureAutoDetect,
   TestBed,
   ComponentFixture,
-  waitForAsync,
-  fakeAsync,
-  tick,
 } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
