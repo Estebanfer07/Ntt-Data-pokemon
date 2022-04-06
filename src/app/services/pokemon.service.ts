@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Pokemon } from '../models/pokemon';
 import { map } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PokemonService {
-  url = 'https://pokemon-pichincha.herokuapp.com/pokemons';
-
   constructor(private http: HttpClient) {}
 
   /**
@@ -16,7 +15,7 @@ export class PokemonService {
    * @returns Pokemon[]
    */
   searchPokemons() {
-    return this.http.get<Pokemon[]>(`${this.url}/?idAuthor=1`);
+    return this.http.get<Pokemon[]>(`${environment.url}/?idAuthor=1`);
   }
 
   /**
@@ -25,7 +24,7 @@ export class PokemonService {
    * @returns Pokemon[]
    */
   searchPokemonsByName(text: string) {
-    return this.http.get<Pokemon[]>(`${this.url}/?idAuthor=1`).pipe(
+    return this.http.get<Pokemon[]>(`${environment.url}/?idAuthor=1`).pipe(
       map((pokemons) => {
         return pokemons.filter((p) =>
           p.name.toLowerCase().includes(text.toLowerCase())
@@ -39,7 +38,7 @@ export class PokemonService {
    * @returns Pokemon
    */
   removePokemon(id: number) {
-    return this.http.delete<Pokemon>(`${this.url}/${id}`);
+    return this.http.delete<Pokemon>(`${environment.url}/${id}`);
   }
 
   /**
@@ -47,7 +46,7 @@ export class PokemonService {
    * @returns Pokemon
    */
   editPokemon(id: number, data: {}) {
-    return this.http.put<Pokemon>(`${this.url}/${id}`, { ...data });
+    return this.http.put<Pokemon>(`${environment.url}/${id}`, { ...data });
   }
 
   /**
@@ -55,6 +54,8 @@ export class PokemonService {
    * @returns Pokemon
    */
   addPokemon(data: {}) {
-    return this.http.post<Pokemon>(`${this.url}/?idAuthor=1`, { ...data });
+    return this.http.post<Pokemon>(`${environment.url}/?idAuthor=1`, {
+      ...data,
+    });
   }
 }

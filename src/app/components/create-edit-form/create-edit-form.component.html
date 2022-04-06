@@ -5,6 +5,9 @@
       <div class="form_field_wrapper">
         <div class="input_description">Nombre:</div>
         <input type="text" formControlName="name" />
+        <p *ngIf="registroForm.get('name')?.value.length === 0">
+          El nombre es requerido
+        </p>
       </div>
       <div class="form_field_wrapper">
         <div class="input_description">Ataque:</div>

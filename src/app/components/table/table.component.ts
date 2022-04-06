@@ -80,6 +80,10 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.currentPage--;
     this.getCurrentPageList();
   }
+  goTopPage(page: number) {
+    this.currentPage = page;
+    this.getCurrentPageList();
+  }
 
   getCurrentPageList() {
     this.pageList = this.filteredPokList.slice(
@@ -96,7 +100,8 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
         (p) => p.type === this.currType
       );
     }
-    this.getCurrentPageList();
+
+    this.goTopPage(1);
   }
 
   edit(pokemon: Pokemon) {
