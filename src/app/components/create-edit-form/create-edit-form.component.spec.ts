@@ -14,13 +14,14 @@ import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SliderComponent } from '../slider/slider.component';
 import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 describe('CreateEditFormComponent', () => {
   let component: CreateEditFormComponent;
   let fixture: ComponentFixture<CreateEditFormComponent>;
   let service: PokemonService;
   let store: MockStore<AppState>;
+  let alert: jasmine.Spy;
 
   const pokemons: Pokemon[] = [
     {
@@ -50,7 +51,7 @@ describe('CreateEditFormComponent', () => {
       updated_at: new Date('2022-03-06T03:38:48.230Z'),
     },
   ];
-  const initialState = {
+  const initialState: AppState = {
     pokemons: {
       pokemons,
       loaded: true,
@@ -81,6 +82,8 @@ describe('CreateEditFormComponent', () => {
     service = TestBed.inject(PokemonService);
     store = TestBed.inject(MockStore);
 
+    alert = spyOn(window, 'alert');
+
     component.ngOnInit();
   });
 
@@ -109,7 +112,6 @@ describe('CreateEditFormComponent', () => {
 
   it('debe llamarse la función para editar cuando se de click en el botón con los datos correctos del formulario y cerrar el formulario', async () => {
     fixture.whenStable().then(() => {
-      const alert = spyOn(window, 'alert');
       const form = fixture.debugElement.query(By.css('form'));
       const editService = spyOn(service, 'editPokemon').and.returnValue(
         of(pokemons[0])
@@ -133,7 +135,6 @@ describe('CreateEditFormComponent', () => {
       //seteo el id de edit a -1 para que se tome como si fuera una creación
       component.editID = -1;
 
-      const alert = spyOn(window, 'alert');
       const form = fixture.debugElement.query(By.css('form'));
       const saveService = spyOn(service, 'addPokemon').and.returnValue(
         of(pokemons[0])
@@ -166,5 +167,36 @@ describe('CreateEditFormComponent', () => {
 
       expect(closeFormFlag).toBeTruthy();
     });
+  });
+
+  it('debe cargar el formulario vacío', () => {
+    spyOn(store, 'select').and.callFake((_) => {
+      return of({ currPokemon: null });
+    });
+
+    component.ngOnInit();
+
+    expect(component.editID).toEqual(-1);
+  });
+
+  it('debe mostrar mensajes de error cuando hay un problema al crear o editar', () => {
+    spyOn(service, 'addPokemon').and.returnValue(throwError(() => {}));
+    spyOn(service, 'editPokemon').and.returnValue(throwError(() => {}));
+
+    component.submit();
+    expect(alert).toHaveBeenCalledWith('Hubo un error al editar pokemon');
+
+    component.editID = -1;
+    component.submit();
+    expect(alert).toHaveBeenCalledWith('Hubo un error al crear pokemon');
+  });
+
+  it('no debe hacer submit si el formulario es invalido', () => {
+    const saveService = spyOn(service, 'addPokemon');
+    component.registroForm.controls['name'].setValue('');
+
+    component.submit();
+
+    expect(saveService).not.toHaveBeenCalled();
   });
 });

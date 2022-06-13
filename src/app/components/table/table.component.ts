@@ -26,7 +26,6 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() editPokemon = new EventEmitter<Pokemon>();
 
   pokemonsSubs!: Subscription;
-  typeSubs!: Subscription;
 
   completePokList: Pokemon[] = [];
   filteredPokList: Pokemon[] = [];
@@ -42,6 +41,9 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
     private store: Store<AppState>,
     private pokemonService: PokemonService
   ) {}
+  ngAfterViewInit(): void {
+    throw new Error('Method not implemented.');
+  }
 
   ngOnInit(): void {
     this.pokemonsSubs = this.store
@@ -54,18 +56,8 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
-  ngAfterViewInit(): void {
-    this.typeSubs = fromEvent(this.typeSelector.nativeElement, 'change')
-      .pipe(pluck('target', 'value'))
-      .subscribe((type: any) => {
-        this.currType = type;
-        this.filterList();
-      });
-  }
-
   ngOnDestroy(): void {
     this.pokemonsSubs.unsubscribe();
-    this.typeSubs.unsubscribe();
   }
 
   nextPage() {
@@ -121,5 +113,10 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
 
       alert('Pokemon eliminado correctamemte');
     }
+  }
+
+  handleTypeChange({ target }: Event) {
+    this.currType = (target as HTMLInputElement)!.value as PokemonType;
+    this.filterList();
   }
 }

@@ -1,3 +1,4 @@
+import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
   ComponentFixtureAutoDetect,
@@ -28,11 +29,33 @@ describe('SliderComponent', () => {
     });
     component.controlName = 'slider';
 
+    fixture.detectChanges();
+
     // component.ngAfterViewInit();
   });
 
   it('debe crear el componente con un form con el campo slider', fakeAsync(() => {
     expect(component).toBeTruthy();
     expect(component.parentForm.contains('slider')).toBeTruthy();
+  }));
+
+  it('debe escuchar los cambios en el componente', fakeAsync(() => {
+    const calc = spyOn(component, 'calcRangeThumbPos');
+    // const el = fixture.nativeElement.querySelector('input');
+    // el.value = 10;
+    // el.dispatchEvent(new Event('input'));
+    // fixture.detectChanges();
+    // await fixture.whenStable();
+    // expect(calc).toHaveBeenCalledWith(10);
+
+    component.parentForm.get('slider')?.setValue(10);
+    component.parentForm
+      .get('slider')
+      ?.updateValueAndValidity({ emitEvent: true });
+
+    tick();
+    fixture.detectChanges(); // OPTIONAL
+
+    expect(calc).toHaveBeenCalledWith(10);
   }));
 });

@@ -2,21 +2,19 @@ import {
   ComponentFixture,
   TestBed,
   ComponentFixtureAutoDetect,
-  fakeAsync,
 } from '@angular/core/testing';
 
 import { TableComponent } from './table.component';
 import { PokemonService } from '../../services/pokemon.service';
 import { AppState, appReducers } from '../../store/app.reducer';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MemoizedSelector, StoreModule } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { HttpClientModule } from '@angular/common/http';
 import { Pokemon } from '../../models/pokemon';
-import { cargarPokemonsSuccess } from '../../store/actions/pokemons.actions';
 import { PokemonsState } from '../../store/reducers/pokemons.reducer';
 import { By } from '@angular/platform-browser';
 import { ColorTypeDirective } from '../../directives/color-type.directive';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 describe('TableComponent', () => {
   let component: TableComponent;
@@ -83,12 +81,11 @@ describe('TableComponent', () => {
 
     // store.dispatch(cargarPokemonsSuccess({ pokemons }));
     component.ngOnInit();
-    component.ngAfterViewInit();
   });
 
-  afterAll(() => {
-    component.ngOnDestroy();
-  });
+  // afterAll(() => {
+  //   component.ngOnDestroy();
+  // });
 
   it('Debe crear el componente de la tabla', () => {
     expect(component).toBeTruthy();
@@ -107,21 +104,75 @@ describe('TableComponent', () => {
     component.loadedPokemons = true;
     component.loadingPokemons = false;
     component.pageList = pokemons;
-    fixture.whenStable().then(() => {
-      spyOn(window, 'confirm').and.returnValue(true);
-      const alert = spyOn(window, 'alert');
+    await fixture.whenStable();
+    spyOn(window, 'confirm').and.returnValue(true);
+    const alert = spyOn(window, 'alert');
 
-      const delBtn = fixture.debugElement.queryAll(By.css('.fas.fa-trash'));
+    const delBtn = fixture.debugElement.queryAll(By.css('.fas.fa-trash'));
 
-      const deleteService = spyOn(service, 'removePokemon').and.returnValue(
-        of(pokemons[0])
-      );
+    const deleteService = spyOn(service, 'removePokemon').and.returnValue(
+      of(pokemons[0])
+    );
 
-      delBtn[0].triggerEventHandler('click', null);
+    delBtn[0].triggerEventHandler('click', null);
 
-      // expect(component.remove).toHaveBeenCalledWith(pokemons[0]);
-      expect(deleteService).toHaveBeenCalledWith(pokemons[0].id);
-      expect(alert).toHaveBeenCalledWith('Pokemon eliminado correctamemte');
-    });
+    // expect(component.remove).toHaveBeenCalledWith(pokemons[0]);
+    expect(deleteService).toHaveBeenCalledWith(pokemons[0].id);
+    expect(alert).toHaveBeenCalledWith('Pokemon eliminado correctamemte');
+  });
+
+  it('Debe filtrar la lista de pokemons por el tipo', () => {
+    expect(component.filteredPokList.length).toBe(pokemons.length);
+
+    component.currType = 'water';
+    component.filterList();
+    expect(component.filteredPokList.length).toBe(0);
+  });
+
+  it('Debe llamar la funcion para editar', () => {
+    const editFnc = spyOn(component.editPokemon, 'emit').and.returnValue();
+
+    component.edit(pokemons[0]);
+    expect(editFnc).toHaveBeenCalledWith(pokemons[0]);
+  });
+
+  it('No debe ir a la siguiente pagina si esta al final o regresar si está al inicio', () => {
+    component.pokemonsPerPage = 5;
+    component.currentPage = 1;
+
+    component.nextPage();
+    expect(component.currentPage).toBe(1);
+
+    component.lastPage();
+    expect(component.currentPage).toBe(1);
+  });
+
+  it('Debe cambiar de pagina', () => {
+    component.pokemonsPerPage = 1;
+    component.currentPage = 1;
+
+    component.nextPage();
+    expect(component.currentPage).toBe(2);
+
+    component.lastPage();
+    expect(component.currentPage).toBe(1);
+  });
+
+  it('Debe cambiar el tipo de pokemon', () => {
+    const filter = spyOn(component, 'filterList');
+    const target: any = { value: 'water' };
+    component.handleTypeChange({ target } as any);
+    expect(filter).toHaveBeenCalled();
+    expect(component.currType).toBe('water');
+  });
+
+  it('Debe mostrar mensaje de error', () => {
+    const alert = spyOn(window, 'alert');
+    spyOn(service, 'removePokemon').and.returnValue(throwError(() => {}));
+    spyOn(window, 'confirm').and.returnValue(true);
+
+    component.remove(pokemons[0]);
+
+    expect(alert).toHaveBeenCalledWith('Hubo un error al eliminar Pokemon');
   });
 });

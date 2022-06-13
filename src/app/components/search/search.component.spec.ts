@@ -1,7 +1,7 @@
 import { SearchComponent } from './search.component';
 import { PokemonService } from '../../services/pokemon.service';
 import { appReducers, AppState } from '../../store/app.reducer';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import {
   TestBed,
   ComponentFixture,
@@ -108,5 +108,18 @@ describe('SearchComponent', () => {
     expect(dispatch).toHaveBeenCalledWith(
       actions.cargarPokemonsSuccess({ pokemons })
     );
+  }));
+
+  it('Debe mostrar mensaje de error', fakeAsync(() => {
+    const alert = spyOn(window, 'alert');
+    spyOn(service, 'searchPokemonsByName').and.returnValue(
+      throwError(() => {})
+    );
+
+    input.nativeElement.dispatchEvent(new KeyboardEvent('keyup', {}));
+    //espero el tiempo del debounce
+    tick(500);
+
+    expect(alert).toHaveBeenCalledWith('Hubo un error al cargar los pokemons');
   }));
 });

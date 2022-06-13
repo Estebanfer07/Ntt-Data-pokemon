@@ -29,7 +29,7 @@ export class SliderComponent implements OnInit, AfterViewInit {
     this.el = this.thumb.nativeElement;
 
     // escuchar cambios en range para mover thumb
-    this.parentForm.get(this.controlName)?.valueChanges.subscribe((val) => {
+    this.parentForm.get(this.controlName)!.valueChanges.subscribe((val) => {
       this.el.style.left = this.calcRangeThumbPos(val);
     });
 

@@ -14,7 +14,7 @@ import { SearchComponent } from './components/search/search.component';
 import { TableComponent } from './components/table/table.component';
 import { By } from '@angular/platform-browser';
 import { Pokemon } from './models/pokemon';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import * as actions from './store/actions/pokemons.actions';
 import { CreateEditFormComponent } from './components/create-edit-form/create-edit-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -117,5 +117,14 @@ describe('AppComponent', () => {
 
     component.hideForm();
     expect(component.showForm).toBeFalsy();
+  });
+
+  it('Debe mostrar mensaje de error', () => {
+    const alert = spyOn(window, 'alert');
+    spyOn(service, 'searchPokemons').and.returnValue(throwError(() => {}));
+
+    component.ngOnInit();
+
+    expect(alert).toHaveBeenCalledWith('Hubo un problema al cargar Pokemons');
   });
 });

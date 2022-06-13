@@ -2,7 +2,7 @@
 
 <div class="table_wrapper">
   <div class="table_options_wrapper">
-    <select #typeSelector name="type">
+    <select name="type" (change)="handleTypeChange($event)">
       <option [value]="t" *ngFor="let t of pokemonTypes">{{ t }}</option>
     </select>
     <div class="paginator">
