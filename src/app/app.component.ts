@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
   showForm: boolean = false;
 
   constructor(
-    private pokemonService: PokemonService,
+    public pokemonService: PokemonService,
     private store: Store<AppState>
   ) {}
 

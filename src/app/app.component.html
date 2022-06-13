@@ -1,15 +1,19 @@
-<p>Listado de Pokemon</p>
-<div class="search_new_wrapper">
-  <app-search></app-search>
-  <button class="btn" (click)="showPokemonForm()">
-    <i class="fas fa-plus"></i>
-    Nuevo
-  </button>
+<div class="app-wrapper">
+  <p>Listado de Pokemon</p>
+  <div class="search_new_wrapper">
+    <app-search></app-search>
+    <button class="btn" (click)="showPokemonForm()">
+      <i class="fas fa-plus"></i>
+      Nuevo
+    </button>
+  </div>
+
+  <app-table (editPokemon)="showPokemonForm($event)"></app-table>
+
+  <app-create-edit-form
+    *ngIf="showForm"
+    (closeForm)="hideForm()"
+  ></app-create-edit-form>
+
+  <app-detail-modal *ngIf="pokemonService.showModal"></app-detail-modal>
 </div>
-
-<app-table (editPokemon)="showPokemonForm($event)"></app-table>
-
-<app-create-edit-form
-  *ngIf="showForm"
-  (closeForm)="hideForm()"
-></app-create-edit-form>

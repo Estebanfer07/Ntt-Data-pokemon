@@ -5,6 +5,12 @@ $radio_punto: 1px;
 $separacion: 21px;
 
 body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+body {
   background: linear-gradient(
         90deg,
         $background ($separacion - $radio_punto),

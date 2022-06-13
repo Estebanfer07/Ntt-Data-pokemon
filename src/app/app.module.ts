@@ -14,6 +14,7 @@ import { CreateEditFormComponent } from './components/create-edit-form/create-ed
 import { ReactiveFormsModule } from '@angular/forms';
 import { ColorTypeDirective } from './directives/color-type.directive';
 import { SliderComponent } from './components/slider/slider.component';
+import { DetailModalComponent } from './components/detail-modal/detail-modal.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { SliderComponent } from './components/slider/slider.component';
     CreateEditFormComponent,
     ColorTypeDirective,
     SliderComponent,
+    DetailModalComponent,
   ],
   imports: [
     BrowserModule,

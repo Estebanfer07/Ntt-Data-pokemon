@@ -8,7 +8,13 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class PokemonService {
+  showModal: boolean = true;
+
   constructor(private http: HttpClient) {}
+
+  toggleModal() {
+    this.showModal = !this.showModal;
+  }
 
   /**
    * Buscar Todos los pokemon
